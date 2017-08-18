@@ -1,9 +1,10 @@
 var express = require('express')
 var router = express.Router()
 var threads = require('../models/thread')
-
+var comments = require('../models/comment')
 
 //Standard routes get/push/put/delete 
+//For Thread Use
 router
   .get('/', (req, res, next) => {
     threads.find({})
@@ -32,59 +33,47 @@ router
       }).catch(next)
   })
 
-
-
-
 // CUSTOM ROUTES
+//for THreads by ID
 router
   .get('/:id', (req, res, next) => {
-    threads.find( req.query )
+    threads.findById(req.params.id)
       .then(threads => {
         res.send(threads)
       }).catch(next)
   })
-  .get('/:id/stars/:starId', (req, res, next) => {
-    stars.find({ galaxyId: req.params.id, _id: req.params.starId })
-      .then(star => {
-        res.send(star)
+
+//Routes for Comments
+  .get('/:id/comments', (req, res, next) => {
+    comments.find({ threadId: req.params.id })
+      .then(comments => {
+        res.send(comments)
       }).catch(next)
   })
-  .get('/:id/stars/:starId/planets', (req, res, next) => {
-    planets.find({ starId: req.params.starId })
-      .then(planets => {
-        res.send(planets)
+
+  //here if we need it
+  // .get('/:id/comments/:commentId', (req, res, next) => {
+  //   threads.find({ threadId: req.params.id, commentId: req.params.commentId })
+  //     .then(comment => {
+  //       res.send(comment)
+  //     }).catch(next)
+  // })
+
+  .post('/:id/comments', (req, res, next) => {
+    comments.create(req.body)
+      .then(comment => {
+        res.send(comment)
       }).catch(next)
   })
-  .get('/:id/stars/:starId/planets/:planetId', (req, res, next) => {
-    planets.find({ galaxyId: req.params.id, starId: req.params.starId, _id: req.params.planetId })
-      .then(planet => {
-        res.send(planet)
+
+  .delete('/:id/comments/:commentId', (req, res, next) => {
+    comments.findByIdAndRemove(req.params.commentId)
+      .then(comment => {
+        res.send({ message: 'Successfully Removed' })
       }).catch(next)
   })
-  .get('/:id/stars/:starId/planets/:planetId/moons', (req, res, next) => {
-    moons.find({ galaxyId: req.params.id, starId: req.params.starId, planetId: req.params.starId })
-      .then(moons => {
-        res.send(moons)
-      }).catch(next)
-  })
-  .get('/:id/stars/:starId/planets/:planetId/moons/:moonId', (req, res, next) => {
-    moons.find({ galaxyId: req.params.id, starId: req.params.starId, planetId: req.params.starId, _id: req.params.moonId })
-      .then(moon => {
-        res.send(moon)
-      }).catch(next)
-  })
-  .get('/:id/planets', (req, res, next) => {
-    planets.find({ galaxyId: req.params.id })
-      .then(planets => {
-        res.send(planets)
-      }).catch(next)
-  })
-  .get('/:id/planets/:planetId', (req, res, next) => {
-    stars.find({ galaxyId: req.params.id, _id: req.params.planetId })
-      .then(planet => {
-        res.send(planet)
-      }).catch(next)
-  })
+
+
 
 // ERROR HANDLER
 router.use('/', (err, req, res, next) => {

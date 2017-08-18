@@ -7,7 +7,7 @@ var threadSchema = new mongoose.Schema({
   img: { type: String, required: false },
   video: { type: String, required: false },
   tags: { type: Array, required: true },
-  votes: { type: Number, required: true, default: 0},
+  votes: { type: Number, required: false, default: 0},
   voterList:{ type: Array},
 
   //RELATIONSHIPS
