@@ -2,6 +2,8 @@ var express = require('express')
 var router = express.Router()
 var threads = require('../models/thread')
 var comments = require('../models/comment')
+//var user = require('../models/user')
+//var session = require('../authentication/sessions');
 
 //Standard routes get/push/put/delete 
 //For Thread Use
@@ -13,6 +15,27 @@ router
       })
       .catch(next)
   })
+
+
+server.use('/api', (req, res, next) => {
+  if (req.session.uid) {
+    //next()
+
+
+
+
+
+
+
+
+
+    
+  } else {
+    res.send({ error: "this failed. Please login." })
+  }
+})
+
+
   .post('/', (req, res, next) => {
     threads.create(req.body)
       .then(threads => {
@@ -33,6 +56,9 @@ router
       }).catch(next)
   })
 
+
+
+
 // CUSTOM ROUTES
 //for THreads by ID
 router
@@ -43,7 +69,7 @@ router
       }).catch(next)
   })
 
-//Routes for Comments
+  //Routes for Comments
   .get('/:id/comments', (req, res, next) => {
     comments.find({ threadId: req.params.id })
       .then(comments => {

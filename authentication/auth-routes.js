@@ -1,5 +1,6 @@
 let router = require('express').Router()
 let Users = require('../models/user')
+
 //NOT /api/register   /register
 router.post('/register', (req, res) => {
   Users.create(req.body)

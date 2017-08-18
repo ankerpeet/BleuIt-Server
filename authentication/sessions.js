@@ -3,13 +3,13 @@ let MongoDBStore = require('connect-mongodb-session')(session);
 
 let store = new MongoDBStore(
 	{
-		uri: 'mongodb://student:student@ds013414.mlab.com:13414/planets',
+		uri: 'mongodb://blue:blue@ds151163.mlab.com:51163/blueit',
 		collection: 'Sessions'
 	});
 
 // Catch errors 
 store.on('error', function (error) {
-	console.error('SESSSION ERROR:', error);
+	console.error('SESSION ERROR:', error);
 });
 
 module.exports = session({

@@ -14,18 +14,24 @@ server.options('*', cors())
 //MIDDLEWARE
 server.use(express.static(__dirname + "/public"))
 server.use(bodyParser.json())
-server.use(bodyParser.urlencoded({extended:true}))
+server.use(bodyParser.urlencoded({ extended: true }))
 server.use(sessions)
 
 
 
 server.use('/', authRoutes)
-
+// server.use('/api', (req, res, next) => {
+//     if (req.session.uid) {
+//         next()
+//     } else {
+//         res.send({ error: "this failed. Please login." })
+//     }
+// })
 server.use('/api/threads', threadRoutes)
 server.use('/api/users', userRoutes)
 
-server.listen(port, ()=>{
-  console.log("starting up Node, on port", port)
+server.listen(port, () => {
+    console.log("starting up Node, on port", port)
 })
 
 var dbConnect = require("./config/db/mlab-config");
