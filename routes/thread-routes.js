@@ -31,6 +31,25 @@ router
       }).catch(next)
   })
 
+
+  .put('/:id/votes', (req, res, next) => {
+    var id = req.params.id
+    //console.log('this is the req: ' + req)
+    threads.findByIdAndUpdate(id, req.body)
+      .then(threads => {
+        res.send({ message: 'Successfully Updated' })
+      }).catch(next)
+  })
+
+  .put('/:id/comments', (req, res, next) => {
+    var id = req.params.id
+    //console.log('this is the req: ' + req)
+    threads.findByIdAndUpdate(id, req.body)
+      .then(thread => {
+        res.send({ message: 'Successfully Updated' })
+      }).catch(next)
+  })
+
 router
   .post('/', (req, res, next) => {
     threads.create(req.body)
