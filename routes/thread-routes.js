@@ -36,6 +36,7 @@ router
     threads.create(req.body)
       .then(threads => {
         if (req.session.uid) {
+          console.log(threads)
           res.send(threads)
         }
       }).catch(next)
