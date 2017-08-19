@@ -9,7 +9,7 @@ var threadSchema = new mongoose.Schema({
   tags: { type: Array, required: true },
   votes: { type: Number, required: false, default: 0},
   voterList:{ type: Array},
-
+  comments:{ type: Array, default: []},
   //RELATIONSHIPS
   userId: { type: ObjectId, ref: 'User', required: true }
 })

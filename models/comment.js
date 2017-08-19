@@ -3,8 +3,8 @@ var ObjectId = mongoose.Schema.ObjectId
 
 var commentSchema = new mongoose.Schema({
   body: { type: String, required: true },
-  votes: { type: Number, required: true, default: 0},
-  voterList: { type: Array },
+  votes: { type: Number, default: 0},
+  //voterList: { type: Array },
 
   // RELATIONSHIPS
   userId: { type: ObjectId, ref: 'User', required: true },
