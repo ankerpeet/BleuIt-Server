@@ -2,8 +2,6 @@ var express = require('express')
 var router = express.Router()
 var threads = require('../models/thread')
 var comments = require('../models/comment')
-//var user = require('../models/user')
-//var session = require('../authentication/sessions');
 
 //Standard routes get/push/put/delete 
 //For Thread Use
@@ -16,52 +14,8 @@ router
       .catch(next)
   })
 
-
-server.use('/api', (req, res, next) => {
-  if (req.session.uid) {
-    //next()
-
-
-
-
-
-
-
-
-
-    
-  } else {
-    res.send({ error: "this failed. Please login." })
-  }
-})
-
-
-  .post('/', (req, res, next) => {
-    threads.create(req.body)
-      .then(threads => {
-        res.send(threads)
-      }).catch(next)
-  })
-  .put('/:id', (req, res, next) => {
-    var id = req.params.id
-    threads.findByIdAndUpdate(id, req.body)
-      .then(threads => {
-        res.send({ message: 'Successfully Updated' })
-      }).catch(next)
-  })
-  .delete('/:id', (req, res, next) => {
-    threads.findByIdAndRemove(req.params.id)
-      .then(threads => {
-        res.send({ message: 'Successfully Removed' })
-      }).catch(next)
-  })
-
-
-
-
-// CUSTOM ROUTES
-//for THreads by ID
-router
+  // CUSTOM ROUTES
+  //for Threads by ID
   .get('/:id', (req, res, next) => {
     threads.findById(req.params.id)
       .then(threads => {
@@ -77,29 +31,50 @@ router
       }).catch(next)
   })
 
-  //here if we need it
-  // .get('/:id/comments/:commentId', (req, res, next) => {
-  //   threads.find({ threadId: req.params.id, commentId: req.params.commentId })
-  //     .then(comment => {
-  //       res.send(comment)
-  //     }).catch(next)
-  // })
+router
+  .post('/', (req, res, next) => {
+    threads.create(req.body)
+      .then(threads => {
+        if (req.session.uid) {
+          res.send(threads)
+        }
+      }).catch(next)
+  })
+  .put('/:id', (req, res, next) => {
+    var id = req.params.id
+    threads.findByIdAndUpdate(id, req.body)
+      .then(threads => {
+        if (req.session.uid) {
+          res.send({ message: 'Successfully Updated' })
+        }
+      }).catch(next)
+  })
+  .delete('/:id', (req, res, next) => {
+    threads.findByIdAndRemove(req.params.id)
+      .then(threads => {
+        if (req.session.uid) {
+          res.send({ message: 'Successfully Removed' })
+        }
+      }).catch(next)
+  })
 
   .post('/:id/comments', (req, res, next) => {
     comments.create(req.body)
       .then(comment => {
-        res.send(comment)
+        if (req.session.uid) {
+          res.send(comment)
+        }
       }).catch(next)
   })
 
   .delete('/:id/comments/:commentId', (req, res, next) => {
     comments.findByIdAndRemove(req.params.commentId)
       .then(comment => {
-        res.send({ message: 'Successfully Removed' })
+        if (req.session.uid) {
+          res.send({ message: 'Successfully Removed' })
+        }
       }).catch(next)
   })
-
-
 
 // ERROR HANDLER
 router.use('/', (err, req, res, next) => {

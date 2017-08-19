@@ -20,7 +20,7 @@ server.use(sessions)
 
 
 server.use('/', authRoutes)
-// server.use('/api', (req, res, next) => {
+// server.use('/api/privateThread', (req, res, next) => {
 //     if (req.session.uid) {
 //         next()
 //     } else {
