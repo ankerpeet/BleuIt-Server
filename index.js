@@ -9,13 +9,15 @@ var server = express();
 var port = 3000;
 var cors = require('cors')
 
-server.options('*', cors())
+
 
 //MIDDLEWARE
-server.use(express.static(__dirname + "/public"))
+server.use(sessions)
+server.use(cors())
+server.options('*', cors())
+//server.use(express.static(__dirname + "/public"))
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: true }))
-server.use(sessions)
 
 
 
